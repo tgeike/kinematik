@@ -5,8 +5,10 @@ Im Fachgebiet **Kinematik** werden die geometrischen Aspekte der Bewegung unters
 - Welche Bewegungen sind unter Berücksichtigung der geometrischen Bedingungen des Systems möglich?
 - Wie sind der Bewegungszustand und die Änderung des Bewegungszustands zu charakterisieren?
 - Welche Verschiebungen oder Verdrehungen sind in den Antrieben notwendig, um beim Endeffektor die gewünschte Bewegung zu erzeugen?
+
 Die Kinematik ist primär Mathematik und benötigt nur die Grundbegriffe Raum und Zeit. Der Begriff Massenkinematik bezieht sich auf die Kinematik unter Einbeziehung des Begriffes Masse.
+
 ## FAQ
 1. *Wo finde ich die Aufgabenstellungen zu den Aufgaben?*
 Die Aufgabenstellungen finden sich
-3. Was benötige ich zum Ausführen der Notebooks?
+2. *Was benötige ich zum Ausführen der Notebooks?* Zum Ausführen der Notebooks wird eine Julia-Installation benötigt. Diese ist für praktisch jedes gängige Betriebssystem verfügbar. Nach der Installation von Julia ist Julia zu öffnen und folgende Befehle sind auszuführen. import Pkg; Pkg.add(Pluto); import Pluto; Pluto.run(). Beim erneuten Starten von Julia sind nur die letzten beiden Befehle notwendig.
