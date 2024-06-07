@@ -12,7 +12,7 @@ md"""
 # Technische Berechnungen mit Julia
 ## Punktkinematik: Exponentielles Weg-Zeit-Gesetz
 
-Ein Fahrzeug beschleunigt entlang einer geraden Straße für ``t < t^\star`` und fährt danach (also für ``t\ge t^\star``) mit konstanter Geschwindigkeit weiter. Während des Beschleunigungsvorgangs gilt das Weg-Zeit-Gesetz
+Ein Motorrad beschleunigt entlang einer geraden Straße für ``t < t^\star`` und fährt danach (also für ``t\ge t^\star``) mit konstanter Geschwindigkeit weiter. Während des Beschleunigungsvorgangs gilt das Weg-Zeit-Gesetz
 ```math
 s_\mathrm{B}(t) = c \left(e^{t/T} - 1\right) 
 ```
@@ -40,10 +40,10 @@ tS_u = 1.5u"minute"
 md"""Um im Folgenden mit den reinen Zahlenwerten weiterzuarbeiten, werden die Größen auf vordefinierte Einheiten umgerechnet (Zeiten in Sekunden, Längen in Meter) und anschließend werden die Einheiten von den Konstanten entfernt."""
 
 # ╔═╡ 77bcf40c-61c7-4d42-b644-7a8fca9f8758
-T = ustrip(u"s",T_u) # Zeitkonstante in Sekunden umrechnen
+T = ustrip(u"s",T_u) # Zeitkonstante in Sekunden umrechnen und Einheit entfernen
 
 # ╔═╡ 1e9477aa-cfa1-42f7-a28c-7cfc6db7a93f
-c = ustrip(u"m",c_u) # Wegkonstante in Meter umrechnen
+c = ustrip(u"m",c_u) # Wegkonstante in Meter umrechnen und Einheit entfernen
 
 # ╔═╡ b1f1cc3d-ad7c-4752-905f-cab1d2097eb3
 tS = ustrip(u"s",tS_u)
@@ -81,6 +81,16 @@ begin
 	p4 = plot(s.(t_tab),v.(t_tab),xlabel="s [m]",ylabel="v [m/s]",label=false,linewidth=2)
 	plot(p1,p2,p3,p4,size=(650,500))
 end
+
+# ╔═╡ 7ecbea5b-f6f2-4841-82fd-11ea925caa38
+md"""Reaktivieren Sie Ihre Kenntnisse zur Kurvendiskussion, die Sie in der Schule erworben und ggf. an der Hochschule vertieft haben.
+
+Wir halten fest:
+1. Die Geschwindigkeit ist die Zeitableitung des Weges und gibt somit den Anstieg des Weg-Zeit-Gesetzes zu jedem Zeitpunkt an. Eine positive Geschwindigkeit heißt, dass der Weg streng monoton mit der Zeit zunimmt. 
+2. Für ``t\ge t^\star`` ist die Geschwindigkeit konstant. Der Weg nimmt dann linear mit der Zeit zu.
+3. Aus dem bekannten Geschwindigkeit-Zeit-Gesetz lässt sich nicht auf den Weg zu Beginn der Zeitzählung zurückschließen (Integrationskonstante muss zusätzlich bekannt sein).
+4. Ähnliche Aussagen lassen sich für die Beschleunigung als Zeitableitung der Geschwindigkeit treffen.
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1220,5 +1230,6 @@ version = "1.4.1+1"
 # ╠═6ead4eb5-af5d-4d78-9cc2-58f03a112b1b
 # ╟─54b7e7c8-09d4-47dd-ace4-2689568bfb79
 # ╠═290c008d-204e-45cd-92f7-6434b9e60bf7
+# ╟─7ecbea5b-f6f2-4841-82fd-11ea925caa38
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
