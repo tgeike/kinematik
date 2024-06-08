@@ -105,6 +105,11 @@ with_theme(theme_latexfonts()) do
 	arrows!(xS/1e3*[1;1;1], yS/1e3*[1;1;1], [0;vEx;vS[1]],[param2.vW;vEy;vS[2]],lengthscale=0.06)
 	xlims!(ax21,-1,23)
 	ylims!(ax21,-5,7)
+	text!(20.3,-4.4,text="Start")
+	text!(-0.6,-1.1,text="Ziel")
+	text!(7.8,5.3,text=L"$v_\mathrm{W}$")
+	text!(7.5,2.1,text=L"$v_\mathrm{E}$")
+	text!(5.3,5.3,text=L"$v_\mathrm{res}$")
 	#save("diagr_flugbahn.pdf",f2)
 	f2
 end
