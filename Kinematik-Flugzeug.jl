@@ -43,7 +43,7 @@ function bahnkurve(r0,p;tE=1000.0)
 	tspan = (0.0,tE)
 	z_start = r0
 	prob = ODEProblem(dgl!,z_start,tspan,p)
-	condition(u, t, integrator) = abs(u[1]) + abs(u[2]) - 1.0
+	condition(u, t, integrator) = u[1] #(u[1]^2 + u[2]^2 - 1.0)
 	affect!(integrator) = terminate!(integrator)
 	cb = ContinuousCallback(condition, affect!)
     sol = solve(prob, Tsit5(), callback = cb, 
@@ -80,6 +80,51 @@ with_theme(theme_latexfonts()) do
 	ylims!(ax4,-5,10)
 	f
 end
+
+# ╔═╡ c5fc2843-afee-4e37-ace3-a65a6d095948
+md"""Analytische Lösung und Vektorplot"""
+
+# ╔═╡ 7885c9f7-833b-4316-a070-02a2b4cea719
+y_analyt(x;x0,y0,p) = 0.5*x*((y0/x0+sqrt((y0/x0)^2 +1))*(x0/x)^(p.vW/p.vE) - (y0/x0+sqrt((y0/x0)^2 +1))^-1*(x/x0)^(p.vW/p.vE))
+
+# ╔═╡ 5d8d1cec-9c20-4729-8019-e0eb0444d6b4
+with_theme(theme_latexfonts()) do 
+	tS = 200
+	xS,yS = sol2a(tS)
+	d = sqrt(xS^2 + yS^2)
+	vEx = -param2.vE*xS/d
+	vEy = -param2.vE*yS/d
+	vS=zeros(2)
+	dgl!(vS,[xS;yS],param2,tS)
+	f2 = Figure(size=(650,360),fontsize=20)
+	ax21 = Axis(f2[1,1],xlabel=L"$x$ [km]",ylabel=L"$y$ [km]",aspect=2.0)
+	lines!(ax21,sol2a[1,:]/1e3,sol2a[2,:]/1e3,linewidth=3)
+	lines!(sol2a[1,:]/1e3, y_analyt.(sol2a[1,:]/1e3,x0=sol2a(0)[1]/1e3,y0=sol2a(0)[2]/1e3,p=param2),linewidth=1,color=:red)
+	scatter!([xS]/1e3,[yS]/1e3)
+	lines!([0; xS/1e3], [0; yS/1e3])
+	arrows!(xS/1e3*[1;1;1], yS/1e3*[1;1;1], [0;vEx;vS[1]],[param2.vW;vEy;vS[2]],lengthscale=0.06)
+	xlims!(ax21,-1,23)
+	ylims!(ax21,-5,7)
+	#save("diagr_flugbahn.pdf",f2)
+	f2
+end
+
+# ╔═╡ 6b665be3-4bc7-43eb-a11d-86b0b54a5ac8
+md"""
+### Anhang
+Wie kann man die Lösung für ausgewählte Zeitpunkte erhalten?"""
+
+# ╔═╡ e772771d-d5dc-45b1-9ed1-dce1c23d85e4
+	t_tab = [100;200;300]
+
+# ╔═╡ a17ad41b-532b-46c2-ba4a-988e26b56fd7
+sol_tab = sol2a(t_tab)
+
+# ╔═╡ 4c7a321c-85af-4089-9612-7d1b249fbd93
+sol_tab[1,:]
+
+# ╔═╡ 5e6fd1aa-0df4-4e1a-8e8b-4b14a93a939c
+sol_tab.t
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -2192,5 +2237,13 @@ version = "3.5.0+0"
 # ╠═d1f4b3e1-887d-42ae-aa5d-66b59974f4fc
 # ╠═57fe311b-6115-40dc-b0ed-0e85e20deea8
 # ╠═9cbd1c7b-1aa5-4a7e-9052-1eea915d8f2a
+# ╟─c5fc2843-afee-4e37-ace3-a65a6d095948
+# ╠═7885c9f7-833b-4316-a070-02a2b4cea719
+# ╠═5d8d1cec-9c20-4729-8019-e0eb0444d6b4
+# ╟─6b665be3-4bc7-43eb-a11d-86b0b54a5ac8
+# ╠═e772771d-d5dc-45b1-9ed1-dce1c23d85e4
+# ╠═a17ad41b-532b-46c2-ba4a-988e26b56fd7
+# ╠═4c7a321c-85af-4089-9612-7d1b249fbd93
+# ╠═5e6fd1aa-0df4-4e1a-8e8b-4b14a93a939c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
