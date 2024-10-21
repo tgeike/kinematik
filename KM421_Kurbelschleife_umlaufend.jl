@@ -28,8 +28,19 @@ Im vorliegenden Fall kann die Bindungsgleichung analytisch nach dem Winkel ``\va
 # ╔═╡ 74a6b80b-ac19-4499-9e16-d92447288d3a
 f(q) = sqrt(2.0)*sin(q[1] - q[2]) - cos(q[2]);
 
+# ╔═╡ 147729b8-4cd4-4a1d-a02c-b692bc426196
+md"""Die Spaltenmatrix ``\mathbf{q}`` fasst die beiden Winkel in einer Variablen (in einem mathematischen Objekt) zusammen. Konkret gilt
+```math
+\mathbf{q} = (\theta,\, \varphi)\;.
+```
+Demnach gilt ``q_1 = \theta`` und ``q_2 = \varphi``.
+"""
+
 # ╔═╡ 2ec13d14-2d90-42e1-9a99-c0002eb2f21a
 ω1 = 2.0 # 1/s
+
+# ╔═╡ 9a5b68e4-cb63-471d-bd0b-aa21e77dc694
+md"""Wir geben hier einen konkreten Wert für die Winkelgeschwindigkeit der Kurbel (Antrieb) an. Genaugenommen müssten wir dies nicht tun, weil wir später die Winkelgeschwindigkeit des Abtriebs mit ``\omega_1`` normieren und die Winkelbeschleunigung des Abtriebs mit ``\omega_1^2``."""
 
 # ╔═╡ 17100a42-798e-4cad-bb37-dcc49b548550
 N = 200;
@@ -1279,7 +1290,9 @@ version = "1.4.1+1"
 # ╠═a121d972-6224-4a3e-a934-0d05d3d1f5a3
 # ╟─a8abb396-77e4-4194-bd14-a21e98bc5ea5
 # ╠═74a6b80b-ac19-4499-9e16-d92447288d3a
+# ╟─147729b8-4cd4-4a1d-a02c-b692bc426196
 # ╠═2ec13d14-2d90-42e1-9a99-c0002eb2f21a
+# ╟─9a5b68e4-cb63-471d-bd0b-aa21e77dc694
 # ╠═17100a42-798e-4cad-bb37-dcc49b548550
 # ╟─c55214dd-bbae-4962-b5a8-c9b36186a8af
 # ╟─37fb794f-270d-4134-aecc-4e90e7f1855a
