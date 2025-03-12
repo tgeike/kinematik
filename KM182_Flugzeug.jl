@@ -43,7 +43,7 @@ function bahnkurve(r0,p;tE=1000.0)
 	tspan = (0.0,tE)
 	z_start = r0
 	prob = ODEProblem(dgl!,z_start,tspan,p)
-	condition(u, t, integrator) = u[1] #(u[1]^2 + u[2]^2 - 1.0)
+	condition(u, t, integrator) = u[1]
 	affect!(integrator) = terminate!(integrator)
 	cb = ContinuousCallback(condition, affect!)
     sol = solve(prob, Tsit5(), callback = cb, 
@@ -114,6 +114,9 @@ with_theme(theme_latexfonts()) do
 	#save("KM182_diagr_flugbahn.pdf",f2)
 	f2
 end
+
+# ╔═╡ 1970d623-b89a-46b0-8db3-80c05ccb4ba8
+md"""**Anmerkung:** Die Positionen der Texte sind im Code fest vorgegeben. Bei einer Änderung der gegebenen Größen wird der Text nicht an der richtigen Stelle stehen."""
 
 # ╔═╡ 6b665be3-4bc7-43eb-a11d-86b0b54a5ac8
 md"""
@@ -2394,6 +2397,7 @@ version = "3.6.0+0"
 # ╟─c5fc2843-afee-4e37-ace3-a65a6d095948
 # ╠═7885c9f7-833b-4316-a070-02a2b4cea719
 # ╠═5d8d1cec-9c20-4729-8019-e0eb0444d6b4
+# ╟─1970d623-b89a-46b0-8db3-80c05ccb4ba8
 # ╟─6b665be3-4bc7-43eb-a11d-86b0b54a5ac8
 # ╠═e772771d-d5dc-45b1-9ed1-dce1c23d85e4
 # ╠═a17ad41b-532b-46c2-ba4a-988e26b56fd7
