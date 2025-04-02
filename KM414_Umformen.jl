@@ -5,7 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ fe0f3e3f-f571-4ab8-a482-c3f2557324e0
-using CairoMakie,Unitful
+using CairoMakie,Unitful,ForwardDiff
 
 # ╔═╡ e49f0dee-0fbd-11f0-3992-c184344d2b72
 md"""
@@ -15,7 +15,9 @@ md"""
 
 # ╔═╡ 68a8cf23-1d74-464c-af67-e6e50ac8a022
 md"""
-### Darstellung 1: Zeitabhängigkeit nicht explizit bekannt
+### Vorüberlegung und Zahlenwerte
+In unseren Berechnungen gehen wir davon aus, das die Zeitabhängigkeit der Größen ``s_1`` bzw. ``\theta`` nicht explizit bekannt ist.
+
 Alle Zahlenwerte sind mit Einheiten gegeben. Es ist unerheblich, ob die Längen alle in Zentimeter gegeben sind oder ob verschiedene Längeneinheiten verwendet werden.
 
 Hinweis: Die Funktion `asin` liefert einen Winkel im Bogenmaß zurück. Entsprechend erwarten die trigonometrischen Funktionen als Argumente Winkel im Bogenmaß.
@@ -34,7 +36,9 @@ end;
 md"""Die Größen mit Stern sind im Code mit `St` gekennzeichnet, d. h. ``s^\star`` heißt im Code `sSt` usw."""
 
 # ╔═╡ d7d7e7fe-935b-48d7-9b19-90510859433f
-md"""Die kinematischen Zusammenhänge lauten
+md"""
+### Kinematischer Zusammenhang für die Wege
+Die kinematischen Zusammenhänge lauten
 ```math
 s_2(s_1) = \sqrt{l^2 - \left(L-s_1\right)^2} - s^\star\;
 ```
@@ -54,6 +58,48 @@ s1(θ) = L - l*sin(θ);
 md"""Im ersten Schritt erstellen wir Diagramme, die den Weg ``s_2`` des beweglichen Mittelteils (Werkzeug) in Abhängigkeit von ``s_1`` (Verfahrweg der Kolbenstange) und vom Winkel ``\theta`` zeigen.
 In der ersten Variante werden die Größen mit Einheiten an den Plot-Befehl übergeben, in der zweiten Variante werden die Größen auf gewünschte Einheiten umgerechnet und dann als reine Zahlenwerte dargestellt.
 """
+
+# ╔═╡ 8eaa2fe3-a99c-44b2-b140-b7d963475af7
+md"""
+### Geschwindigkeit des Mittelteils: analytische Lösung
+Wir fokussieren auf eine Darstellung: das Verhältnis ``v_2/v_1`` der beiden Geschwindigkeiten ``v_2`` und ``v_1`` in Abhängigkeit vom Winkel ``\theta``.
+Für den Quotienten ``\zeta`` der Geschwindigkeiten gilt
+```math
+\zeta = \frac{v_2}{v_1} = \tan\theta \;.
+```
+"""
+
+# ╔═╡ 8301c1f5-7dda-4b3c-a4fe-f3ed6d5d7499
+with_theme(theme_latexfonts()) do
+	θ_tab = LinRange(0,θSt,100)
+	f = Figure(size=(650,300),fontsize=20)
+	ax1 = Axis(f[1,1],xlabel=L"$\theta\; [°]$",ylabel=L"$v_2/v_1$",title="") 
+	lines!(ax1,rad2deg.(θ_tab),tan.(θ_tab))
+	f
+	#save("KM414_Umformen_Diagramm2.pdf",f)
+end
+
+# ╔═╡ aedc7ccf-a91f-49f9-bd49-47f817cbc7db
+md"""In der Ausgangslage (Winkel ``\theta`` beträgt $(round(rad2deg(θSt),digits=1))°) ist der Quotient der beiden Geschwindigkeiten $(round(tan(θSt),digits=2)), d. h. ``v_2=`` $(round(tan(θSt),digits=2)) ``v_1``. Wenn ``\theta`` gegen Null strebt, strebt auch ``v_2`` gegen Null.
+
+Hinweis: In der praktischen Umsetzung muss sichergestellt werden, dass ``\theta`` jederzeit *ausreichend weit* von Null entfernt bleibt."""
+
+# ╔═╡ 57b51965-061b-492e-a544-fb34af5fea64
+md"""
+### Geschwindigkeit des Mittelteils: automatische Differentiation
+Wir fokussieren weiterhin auf das (dimensionslose) Verhältnis ``v_2/v_1`` der beiden Geschwindigkeiten ``v_2`` und ``v_1`` in Abhängigkeit vom Winkel ``\theta``.
+Da wir in der Bindungsgleichung ``s_2`` als Funktion von ``s_1`` formuliert haben, gilt für den Quotienten ``\zeta`` der Geschwindigkeiten 
+```math
+\zeta = \frac{v_2}{v_1} =\frac{\dot s_2}{\dot s_1}= \frac{1}{\dot s_1}\left(\frac{\partial s_2}{\partial s_1} \dot s_1\right)=\frac{\partial s_2}{\partial s_1}\;.
+```
+Die Ableitung auf der rechten Seite kann analytisch berechnet werden. Kein Problem! Wir wollen hier alternativ auf die automatische Differentiation zurückgreifen.
+
+Für die automatische Differentiation definieren wir eine zusätzliche Funktion für ``s_2``, die im Code ebenfalls `s2` heißt. Diese Funktion hat drei Argumente: den Zahlenwert von ``s_1``, die Einheit von ``s_1`` und die Einheit von ``s_2``. Die Funktion liefert den Zahlenwert von ``s_2`` zurück in Bezug auf die geforderte Einheit.
+Wer sich jetzt wundert, dass zwei verschiedene Funktionen denselben Namen (hier `s2`) haben dürfen, der sei daran erinnert, dass Julia *multiple dispatch* erlaubt.
+"""
+
+# ╔═╡ b1c9f8cc-120d-47bf-b989-67e4a660b6bb
+s2(s1,us1,us2) = ustrip.(us2,s2.(s1*us1));
 
 # ╔═╡ 8eca139e-a03f-43aa-8cd5-837e53fdd335
  with_theme(theme_latexfonts()) do
@@ -80,31 +126,53 @@ end
 	#save("KM414_Umformen_Diagramm1.pdf",f)
 end
 
-# ╔═╡ 8eaa2fe3-a99c-44b2-b140-b7d963475af7
-md"""Für den Quotienten ``\zeta`` der Geschwindigkeiten gilt
+# ╔═╡ ccd25136-ac79-422d-b587-aa57038bdf81
+md"""Ein Aufruf der neuen Funktion sieht wie folgt aus."""
+
+# ╔═╡ db32285c-f663-4985-adf4-5f1bbbf428e0
+s2(35,u"cm",u"dm")
+
+# ╔═╡ f31df48c-ce74-4ea3-9f67-405ba0781573
+md"""Jetzt bestimmen wir das Geschwindigkeitsverhältnis über 
 ```math
-\zeta = \frac{v_2}{v_1} = \tan\theta \;.
+\zeta = \frac{\partial s_2}{\partial s_1}\;.
 ```
+Dazu benutzen wir in der automatischen Differentiation mit `ForwarDiff.derivative` die neue dimensionslose Version der Funktion für ``s_2``. Die abschließende Umrechung über `|> NoUnits` stellt sicher, dass am Ende Zähler und Nenner die gleichen Einheiten haben.
 """
 
-# ╔═╡ 8301c1f5-7dda-4b3c-a4fe-f3ed6d5d7499
+# ╔═╡ a20ef448-43e9-48f4-806b-1370f75bcb9c
+ζ(s1,us1,us2) = ForwardDiff.derivative(s1->s2(s1,us1,us2),s1)*us2/us1 |> NoUnits;
+
+# ╔═╡ b6ebfaa7-3e6d-42a7-acf6-2edafc5b857d
 with_theme(theme_latexfonts()) do
 	θ_tab = LinRange(0,θSt,100)
-	f = Figure(size=(650,300),fontsize=20)
-	ax1 = Axis(f[1,1],xlabel=L"$\theta\; [°]$",ylabel=L"$v_2/v_1$",title="") 
-	lines!(ax1,rad2deg.(θ_tab),tan.(θ_tab))
+	s1_tab = s1.(θ_tab)
+	ζ_tab = ζ.(ustrip.(u"cm",s1_tab),u"cm",u"cm")
+	f = Figure(size=(650,450),fontsize=20)
+	ax1 = Axis(f[1,1],xlabel=L"$\theta\; [°]$",ylabel="Absoluter Fehler",title="") 
+	lines!(ax1,rad2deg.(θ_tab),ζ.(ustrip.(u"cm",s1_tab),u"cm",u"cm")-tan.(θ_tab))
+	ylims!(ax1,-5e-16,5e-16)
+	ax2 = Axis(f[2,1],xlabel=L"$\theta\; [°]$",ylabel=L"$v_2/v_1$",title="") 
+	lines!(ax2,rad2deg.(θ_tab),ζ_tab)
 	f
-	#save("KM414_Umformen_Diagramm2.pdf",f)
+	#save("KM414_Umformen_Diagramm3.pdf",f)
 end
+
+# ╔═╡ ce0dbec7-89a7-4069-a6fe-5bf5e19e3b39
+md"""
+Probieren Sie aus, was passiert, wenn  Sie in der Programmzeile `ζ_tab=` die hintere Einheit variieren (z. B. m statt cm). Das Diagramm für ``\zeta`` sollte sich nicht verändern.
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [compat]
 CairoMakie = "~0.13.2"
+ForwardDiff = "~0.10.38"
 Unitful = "~1.22.0"
 """
 
@@ -114,7 +182,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.3"
 manifest_format = "2.0"
-project_hash = "89d3a78b64b0d201a352d13cd56b48125cfc9e16"
+project_hash = "6246831881c99a4af8b11f51c12f51ed3abe8b8a"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -277,6 +345,12 @@ git-tree-sha1 = "64e15186f0aa277e174aa81798f7eb8598e0157e"
 uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
 version = "0.13.0"
 
+[[deps.CommonSubexpressions]]
+deps = ["MacroTools"]
+git-tree-sha1 = "cda2cfaebb4be89c9084adaca7dd7333369715c5"
+uuid = "bbf7d656-a473-5ed7-a52c-81e309532950"
+version = "0.3.1"
+
 [[deps.Compat]]
 deps = ["TOML", "UUIDs"]
 git-tree-sha1 = "8ae8d32e09f0dcf42a36b90d4e17f5dd2e4c4215"
@@ -334,6 +408,18 @@ deps = ["AdaptivePredicates", "EnumX", "ExactPredicates", "Random"]
 git-tree-sha1 = "5620ff4ee0084a6ab7097a27ba0c19290200b037"
 uuid = "927a84f5-c5f4-47a5-9785-b46e178433df"
 version = "1.6.4"
+
+[[deps.DiffResults]]
+deps = ["StaticArraysCore"]
+git-tree-sha1 = "782dd5f4561f5d267313f23853baaaa4c52ea621"
+uuid = "163ba53b-c6d8-5494-b064-1a9d43ac40c5"
+version = "1.1.0"
+
+[[deps.DiffRules]]
+deps = ["IrrationalConstants", "LogExpFunctions", "NaNMath", "Random", "SpecialFunctions"]
+git-tree-sha1 = "23163d55f885173722d1e4cf0f6110cdbaf7e272"
+uuid = "b552c78f-8df3-52c6-915a-8e097449b14b"
+version = "1.15.1"
 
 [[deps.Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
@@ -474,6 +560,16 @@ version = "2.15.0+0"
 git-tree-sha1 = "9c68794ef81b08086aeb32eeaf33531668d5f5fc"
 uuid = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8"
 version = "1.3.7"
+
+[[deps.ForwardDiff]]
+deps = ["CommonSubexpressions", "DiffResults", "DiffRules", "LinearAlgebra", "LogExpFunctions", "NaNMath", "Preferences", "Printf", "Random", "SpecialFunctions"]
+git-tree-sha1 = "a2df1b776752e3f344e5116c06d75a10436ab853"
+uuid = "f6369f11-7733-5829-9624-2563aa707210"
+version = "0.10.38"
+weakdeps = ["StaticArrays"]
+
+    [deps.ForwardDiff.extensions]
+    ForwardDiffStaticArraysExt = "StaticArrays"
 
 [[deps.FreeType]]
 deps = ["CEnum", "FreeType2_jll"]
@@ -1635,5 +1731,14 @@ version = "3.6.0+0"
 # ╠═40a967c4-47e8-4cba-a64a-35df1e255c89
 # ╟─8eaa2fe3-a99c-44b2-b140-b7d963475af7
 # ╠═8301c1f5-7dda-4b3c-a4fe-f3ed6d5d7499
+# ╟─aedc7ccf-a91f-49f9-bd49-47f817cbc7db
+# ╟─57b51965-061b-492e-a544-fb34af5fea64
+# ╠═b1c9f8cc-120d-47bf-b989-67e4a660b6bb
+# ╟─ccd25136-ac79-422d-b587-aa57038bdf81
+# ╠═db32285c-f663-4985-adf4-5f1bbbf428e0
+# ╟─f31df48c-ce74-4ea3-9f67-405ba0781573
+# ╠═a20ef448-43e9-48f4-806b-1370f75bcb9c
+# ╠═b6ebfaa7-3e6d-42a7-acf6-2edafc5b857d
+# ╟─ce0dbec7-89a7-4069-a6fe-5bf5e19e3b39
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
