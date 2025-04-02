@@ -20,7 +20,7 @@ In unseren Berechnungen gehen wir davon aus, das die Zeitabhängigkeit der Grö�
 
 Alle Zahlenwerte sind mit Einheiten gegeben. Es ist unerheblich, ob die Längen alle in Zentimeter gegeben sind oder ob verschiedene Längeneinheiten verwendet werden.
 
-Hinweis: Die Funktion `asin` liefert einen Winkel im Bogenmaß zurück. Entsprechend erwarten die trigonometrischen Funktionen als Argumente Winkel im Bogenmaß.
+Hinweis: Die Funktion `asin` liefert einen Winkel im Bogenmaß zurück. Die trigonometrischen Funktionen (`sin`, `cos`, usw.) erwarten als Argumente Winkel im Bogenmaß.
 """
 
 # ╔═╡ c68c068b-22b6-4151-bcb5-5bbaac972f3d
@@ -62,7 +62,7 @@ In der ersten Variante werden die Größen mit Einheiten an den Plot-Befehl übe
 # ╔═╡ 8eaa2fe3-a99c-44b2-b140-b7d963475af7
 md"""
 ### Geschwindigkeit des Mittelteils: analytische Lösung
-Wir fokussieren auf eine Darstellung: das Verhältnis ``v_2/v_1`` der beiden Geschwindigkeiten ``v_2`` und ``v_1`` in Abhängigkeit vom Winkel ``\theta``.
+Wir fokussieren auf das (dimensionslose) Verhältnis ``v_2/v_1`` der beiden Geschwindigkeiten ``v_2`` und ``v_1`` in Abhängigkeit vom Winkel ``\theta``.
 Für den Quotienten ``\zeta`` der Geschwindigkeiten gilt
 ```math
 \zeta = \frac{v_2}{v_1} = \tan\theta \;.
@@ -161,6 +161,8 @@ end
 # ╔═╡ ce0dbec7-89a7-4069-a6fe-5bf5e19e3b39
 md"""
 Probieren Sie aus, was passiert, wenn  Sie in der Programmzeile `ζ_tab=` die hintere Einheit variieren (z. B. m statt cm). Das Diagramm für ``\zeta`` sollte sich nicht verändern.
+
+Im oberen Teil des Diagramms erkennt man, dass das Ergebnis mit AD praktisch identisch zum analytischen Ergebnis ist. Die Abweichungen sind von der Größenordnung der Maschinengenauigkeit.
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
