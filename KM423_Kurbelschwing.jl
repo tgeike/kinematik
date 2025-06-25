@@ -144,13 +144,25 @@ begin
 		ω1j = ω1(t_tab[j])
 		ω3j = -G[1]/G[2]*ω1j
 		α1j = α1(t_tab[j])
-		α3j = -(H[1,1]*ω1j^2 + (H[1,2] + H[2,1])*ω1j*ω3j + H[2,2]*ω3j^2 + G[1]*α1j)/G[2]
+		α3j = -(H[1,1]*ω1j^2 + (H[1,2] + H[2,1])*ω1j*ω3j + H[2,2]*ω3j^2 + 
+			G[1]*α1j)/G[2]
 		θ3_tab[j] = sol.u
 		ω3_tab[j] = ω3j
 		α3_tab[j] = α3j
 		θ3_ini = sol.u
 	end
 end
+
+# ╔═╡ 9bdc7c33-486f-4fcd-98d9-9d283f28a781
+md"""
+!!! info "Automatische Differentiation"
+    Bei der Bestimmung der Winkelgeschwindigkeit und Winkelbeschleunigung der Schwinge werden die partiellen Ableitungen der Bindungsgleichung ``f(\theta_1,\theta_2)`` nach den beiden Argumenten ``\theta_1`` und ``\theta_2`` benötigt. Diese partiellen Ableitungen können händisch bestimmt werden. Schneller und sicherer ist die Verwendung der automatischen Differentiation (Paket `ForwardDiff`).
+
+!!! info "Nichtlineare Gleichungen lösen"
+    Die Bindungsgleichung soll numerisch gelöst werden. Dazu sind in Julia verschiedene Pakete vorhanden. Im vorliegenden Fall wird mit dem Paket `NonlinearSolve` gearbeitet. Bei nichtlinearen Gleichungen und Gleichungssystemen gibt es häufig mehrere Lösungen. Welche Lösung der numerische Löser findet, hängt vom Startwert ab.
+
+Der obenstehende Codeblock enthält mit Ausnahme des Startwertes für ``\theta_3`` (Variable `θ3_ini`) und dem Fakt, dass eine Bindungsgleichung für zwei generalisierte Koordinaten ``\theta_1`` und ``\theta_3`` aufgestellt wurde, keine Spezifika der konkreten Aufgabe. Der Codeblock kann demnach (nahezu) unverändert für beliebige Kinematikaufgaben mit einer Bindungsgleichung und zwei generalisierten Koordinaten verwendet werden.
+"""
 
 # ╔═╡ 69607d13-9655-4952-83c5-be7d0f1833fa
 plot(θ1_tab/π,θ3_tab/π,w=3,label=false,title="Abtriebswinkel θ₃",size=(500,250), xlabel="θ1/π",ylabel="θ3/π")
@@ -217,7 +229,8 @@ md"""
 # ╔═╡ 9f61ce6e-7bf5-427d-8f26-75c32240e69c
 md"""
 ### Backup - Variante von Szabó
-Im Buch von Szabó wird für die Schwinge der Innenwinkel als generalisierte Koordinate verwendet (bei uns der Außenwinkel). Um direkt mit den Ergebnissen aus dem Buch zu vergleichen, werden unten die Diagramme für die alternative Formulierung gezeigt.
+Im Buch von Szabó wird für die Schwinge der Innenwinkel (dort ``\psi`` genannt) als generalisierte Koordinate verwendet (bei uns der Außenwinkel ``\theta_3``). In beiden Fällen wird gegenüber der Horizontalen (``x``-Achse) gemessen.
+Um direkt mit den Ergebnissen aus dem Buch zu vergleichen, werden unten die Diagramme für die alternative Formulierung gezeigt. Es gilt ``\psi = π - \theta_3``.
 """
 
 # ╔═╡ 3f2951f6-b26e-46b4-8fac-21cdaed98140
@@ -2324,6 +2337,7 @@ version = "1.4.1+2"
 # ╠═17c19c08-6e69-47b4-ae38-7fcf73c14607
 # ╟─ee419ece-7a69-4f95-8bd9-7f96c1455fb1
 # ╠═52aec6d6-abea-4d86-95bd-69468a88e3a7
+# ╟─9bdc7c33-486f-4fcd-98d9-9d283f28a781
 # ╠═69607d13-9655-4952-83c5-be7d0f1833fa
 # ╟─32d9236d-7a15-48dc-8779-bffcf85ef0a1
 # ╠═4f51e001-6844-4d34-ba9c-090dbce58b9e
