@@ -196,7 +196,7 @@ begin
 	yC = l3*sin(θ3_tab[k])
 	plot([0.0; xB; xC; l0], [0.0; yB; yC; 0.0], 
      w = 4, label = false,
-     xlim = [-20.0, 550.0], aspect_ratio = 1, framestyle = :origin,title="Lage für θ₁=$(round(rad2deg(θ1_tab[k]),digits=2))°") #fontfamily="segoe"
+     xlim = [-20.0, 550.0], aspect_ratio = 1, framestyle = :origin,title="Lage für θ₁=$(round(rad2deg(θ1_tab[k]),digits=2))° und θ₃=$(round(rad2deg(θ3_tab[k]),digits=2))°") #fontfamily="segoe"
 	plot!(circle(0,0,5), label = false, color=:white)
 	plot!(circle(xB,yB,5), label = false, color=:white)
 	plot!(circle(xC,yC,5), label = false, color=:white)
@@ -2341,7 +2341,7 @@ version = "1.4.1+2"
 # ╠═69607d13-9655-4952-83c5-be7d0f1833fa
 # ╟─32d9236d-7a15-48dc-8779-bffcf85ef0a1
 # ╠═4f51e001-6844-4d34-ba9c-090dbce58b9e
-# ╟─0a9536de-db0d-4c1a-b51c-c479bf5b5df6
+# ╠═0a9536de-db0d-4c1a-b51c-c479bf5b5df6
 # ╟─dabf2267-2660-4ce5-a857-719f8d7ef519
 # ╟─d7d19e24-6508-4240-aa0a-f736a7cf8eac
 # ╟─97b73015-5139-435e-b1c0-9569105bf182
