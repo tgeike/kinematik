@@ -90,6 +90,7 @@ md"""
 !!! info "Multiple Dispatch"
     In Julia gibt es das sogenannte *Multiple Dispatch*. Funktionsnamen können mehrfach mit verschiedenen Argumenten benutzt werden. Das ist sehr praktisch, weil im vorliegenden Fall die Bindungsgleichung den gleichen Namen tragen kann, unabhängig davon, ob man die Version mit zwei skalaren Argumenten ``\theta_1`` und ``\theta_3`` benutzt oder mit einer Spaltenmatrix ``\mathbf{q}``.
 
+Die Rückmeldung `f (generic function with 2 methods)` verweist darauf, dass es zwei Funktionen mit dem Namen `f` gibt.
 """
 
 # ╔═╡ 8fba609b-e72f-4e4e-84ec-eb5b07f5e960
@@ -138,8 +139,8 @@ begin
 		prob = NonlinearProblem(Ψ,θ3_ini,0)
 		sol = solve(prob)
 		q = [θ1_tab[j] sol.u]
-		G = ForwardDiff.gradient(f,q)
-		H = ForwardDiff.hessian(f,q)
+		G = ForwardDiff.gradient(f,q) # Gradient (1. Ableitung)
+		H = ForwardDiff.hessian(f,q) # Hessematrix (2. Ableitung)
 		ω1j = ω1(t_tab[j])
 		ω3j = -G[1]/G[2]*ω1j
 		α1j = α1(t_tab[j])
@@ -152,7 +153,7 @@ begin
 end
 
 # ╔═╡ 69607d13-9655-4952-83c5-be7d0f1833fa
-plot(θ1_tab/π,θ3_tab/π,w=3,label=false,title="Abtriebswinkel",size=(500,250), xlabel="θ1/π",ylabel="θ3/π")
+plot(θ1_tab/π,θ3_tab/π,w=3,label=false,title="Abtriebswinkel θ₃",size=(500,250), xlabel="θ1/π",ylabel="θ3/π")
 
 # ╔═╡ 32d9236d-7a15-48dc-8779-bffcf85ef0a1
 md"""
@@ -189,19 +190,23 @@ begin
 	plot!(circle(xC,yC,5), label = false, color=:white)
 	plot!(circle(l0,0,5), label = false, color=:white)
 	#sqrt((xC-xB)^2 + (yC-yB)^2)
+	#savefig("./KM423_Skizze_unbe.svg")
 end
 
 # ╔═╡ dabf2267-2660-4ce5-a857-719f8d7ef519
 begin
 	p0 = plot(rad2deg.(θ1_tab), rad2deg.(θ3_tab), label = false, w = 2, 
-    ylabel = "Winkel θ3")
-	p1 = plot(rad2deg.(θ1_tab),ω3_tab, label = false, w = 2, ylabel = "Winkelgeschw. ω3")
-	p2 = plot(rad2deg.(θ1_tab),α3_tab, label = false, w = 2, ylabel = "Winkelbeschl. α3")
+    ylabel = "Winkel θ₃ [°]")
+	p1 = plot(rad2deg.(θ1_tab),ω3_tab, label = false, w = 2, ylabel = "Winkelgeschw. ω₃ [1/s]")
+	p2 = plot(rad2deg.(θ1_tab),α3_tab, label = false, w = 2, ylabel = "Winkelbeschl. α₃ [1/s²]")
 	plot(p0,p1,p2,layout = (3,1),size=(700,800)) #,fontfamily="segoe"
 	xlabel!("Kurbelwinkel [°]")
 	plot!(xticks = 0:45:360)
-	#savefig("./fig-fourbar-diagramm.svg")
+	#savefig("./KM423_Diagramm.svg")
 end
+
+# ╔═╡ d7d19e24-6508-4240-aa0a-f736a7cf8eac
+md"""Wir sehen, wie bei anderen Aufgaben mit ungleichförmigen Getrieben auch, dass trotz konstanter Drehzahl des Antriebs die Winkelgeschwindigkeit des Abtriebs veränderlich ist. Somit sind selbst bei konstanter Antriebsdrehzahl Winkelbeschleunigungen bei anderen Bauteilen zu erwarten."""
 
 # ╔═╡ 97b73015-5139-435e-b1c0-9569105bf182
 md"""
@@ -212,14 +217,15 @@ md"""
 # ╔═╡ 9f61ce6e-7bf5-427d-8f26-75c32240e69c
 md"""
 ### Backup - Variante von Szabó
+Im Buch von Szabó wird für die Schwinge der Innenwinkel als generalisierte Koordinate verwendet (bei uns der Außenwinkel). Um direkt mit den Ergebnissen aus dem Buch zu vergleichen, werden unten die Diagramme für die alternative Formulierung gezeigt.
 """
 
 # ╔═╡ 3f2951f6-b26e-46b4-8fac-21cdaed98140
 begin
 	p4 = plot(rad2deg.(θ1_tab), rad2deg.(π .- θ3_tab), label = false, w = 2, 
-    ylabel = "Winkel θ3",ylims=(0,1.1*maximum(rad2deg.(π .- θ3_tab))))
-	p5 = plot(rad2deg.(θ1_tab),-ω3_tab, label = false, w = 2, ylabel = "Winkelgeschw. ω3")
-	p6 = plot(rad2deg.(θ1_tab),-α3_tab, label = false, w = 2, ylabel = "Winkelbeschl. α3")
+    ylabel = "Winkel 180°-θ₃",ylims=(0,1.1*maximum(rad2deg.(π .- θ3_tab))))
+	p5 = plot(rad2deg.(θ1_tab),-ω3_tab, label = false, w = 2, ylabel = "Winkelgeschw. -ω₃")
+	p6 = plot(rad2deg.(θ1_tab),-α3_tab, label = false, w = 2, ylabel = "Winkelbeschl. -α₃")
 	plot(p4,p5,p6,layout = (3,1),size=(700,800),framestyle = :origin) #,fontfamily="segoe"
 	xlabel!("Kurbelwinkel [°]")
 	plot!(xticks = 0:45:450)
@@ -2310,10 +2316,10 @@ version = "1.4.1+2"
 # ╠═15dbcfc6-28f4-4ace-bd3a-bb9e3e924a40
 # ╟─716c0a78-57b6-4798-a3fd-d85980b6cec1
 # ╟─8fba609b-e72f-4e4e-84ec-eb5b07f5e960
+# ╠═a702ef88-e67d-427b-8c38-7f37afb58605
 # ╠═d269ab13-8de7-4834-980c-fa9b0b898d15
 # ╠═79cff64a-d339-4cb5-8dad-c52c6828e8d9
 # ╠═b2630302-36d2-427f-8d32-f26e9ca95beb
-# ╠═a702ef88-e67d-427b-8c38-7f37afb58605
 # ╟─f34dd846-bd25-40d8-843a-6c63d8a297e9
 # ╠═17c19c08-6e69-47b4-ae38-7fcf73c14607
 # ╟─ee419ece-7a69-4f95-8bd9-7f96c1455fb1
@@ -2323,6 +2329,7 @@ version = "1.4.1+2"
 # ╠═4f51e001-6844-4d34-ba9c-090dbce58b9e
 # ╟─0a9536de-db0d-4c1a-b51c-c479bf5b5df6
 # ╟─dabf2267-2660-4ce5-a857-719f8d7ef519
+# ╟─d7d19e24-6508-4240-aa0a-f736a7cf8eac
 # ╟─97b73015-5139-435e-b1c0-9569105bf182
 # ╟─9f61ce6e-7bf5-427d-8f26-75c32240e69c
 # ╟─3f2951f6-b26e-46b4-8fac-21cdaed98140
