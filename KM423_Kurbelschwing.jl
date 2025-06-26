@@ -251,6 +251,18 @@ rad2deg(minimum(π .- θ3_tab))
 # ╔═╡ 75ba2199-88be-483d-98bf-b36ad10790a3
 rad2deg(maximum(π .- θ3_tab))
 
+# ╔═╡ 4fe15df8-cd2f-4a0a-ad03-8e04ebd68698
+ξ(θ1) = sqrt((l0/l1)^2 + 1 - 2*l0/l1*cos(θ1))
+
+# ╔═╡ a564c2f2-f03b-4ddf-b121-c43747878c34
+ψ(θ1) = asin(sin(θ1)/ξ(θ1)) + acos(((l3^2 + l1^2 + l0^2 - l2^2)/(2*l1*l3) -l0/l3*cos(θ1))/ξ(θ1))
+
+# ╔═╡ b6a61dff-1d96-4752-af42-4932c851abbd
+plot(rad2deg.(θ1_tab), (π .- θ3_tab) - ψ.(θ1_tab), label = false, w = 2, title = "Fehler beim Abtriebswinkel [rad]", xlabel="θ₁ [°]", size=(450,200))
+
+# ╔═╡ e80f721c-4eda-484a-b38c-ad1377c70447
+maximum(abs.((π .- θ3_tab) - (ψ.(θ1_tab))))
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -2346,8 +2358,12 @@ version = "1.4.1+2"
 # ╟─d7d19e24-6508-4240-aa0a-f736a7cf8eac
 # ╟─97b73015-5139-435e-b1c0-9569105bf182
 # ╟─9f61ce6e-7bf5-427d-8f26-75c32240e69c
-# ╟─3f2951f6-b26e-46b4-8fac-21cdaed98140
+# ╠═3f2951f6-b26e-46b4-8fac-21cdaed98140
 # ╠═e15f0717-ab47-4730-b9d0-1b7a7a835563
 # ╠═75ba2199-88be-483d-98bf-b36ad10790a3
+# ╠═4fe15df8-cd2f-4a0a-ad03-8e04ebd68698
+# ╠═a564c2f2-f03b-4ddf-b121-c43747878c34
+# ╠═b6a61dff-1d96-4752-af42-4932c851abbd
+# ╠═e80f721c-4eda-484a-b38c-ad1377c70447
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
