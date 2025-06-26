@@ -4,6 +4,9 @@
 using Markdown
 using InteractiveUtils
 
+# ╔═╡ 52edc603-a963-4b2f-8ab8-ab8ea95d0a59
+using Dates; md"""Version: $(Dates.now())"""
+
 # ╔═╡ 2ac47439-7d0a-4506-b351-db0c572ec9a2
 using Plots,NonlinearSolve,ForwardDiff
 
@@ -228,7 +231,7 @@ md"""
 
 # ╔═╡ 9f61ce6e-7bf5-427d-8f26-75c32240e69c
 md"""
-### Backup - Variante von Szabó
+### Backup - Bezeichnungen von Szabó und analytische Lösung
 Im Buch von Szabó wird für die Schwinge der Innenwinkel (dort ``\psi`` genannt) als generalisierte Koordinate verwendet (bei uns der Außenwinkel ``\theta_3``). In beiden Fällen wird gegenüber der Horizontalen (``x``-Achse) gemessen.
 Um direkt mit den Ergebnissen aus dem Buch zu vergleichen, werden unten die Diagramme für die alternative Formulierung gezeigt. Es gilt ``\psi = π - \theta_3``.
 """
@@ -252,10 +255,10 @@ rad2deg(minimum(π .- θ3_tab))
 rad2deg(maximum(π .- θ3_tab))
 
 # ╔═╡ 4fe15df8-cd2f-4a0a-ad03-8e04ebd68698
-ξ(θ1) = sqrt((l0/l1)^2 + 1 - 2*l0/l1*cos(θ1))
+ζ(θ1) = sqrt((l0/l1)^2 + 1 - 2*l0/l1*cos(θ1))
 
 # ╔═╡ a564c2f2-f03b-4ddf-b121-c43747878c34
-ψ(θ1) = asin(sin(θ1)/ξ(θ1)) + acos(((l3^2 + l1^2 + l0^2 - l2^2)/(2*l1*l3) -l0/l3*cos(θ1))/ξ(θ1))
+ψ(θ1) = asin(sin(θ1)/ζ(θ1)) + acos(((l3^2 + l1^2 + l0^2 - l2^2)/(2*l1*l3) -l0/l3*cos(θ1))/ζ(θ1))
 
 # ╔═╡ b6a61dff-1d96-4752-af42-4932c851abbd
 plot(rad2deg.(θ1_tab), (π .- θ3_tab) - ψ.(θ1_tab), label = false, w = 2, title = "Fehler beim Abtriebswinkel [rad]", xlabel="θ₁ [°]", size=(450,200))
@@ -266,6 +269,7 @@ maximum(abs.((π .- θ3_tab) - (ψ.(θ1_tab))))
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 NonlinearSolve = "8913a72c-1f9b-4ce2-8d82-65094dcecaec"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
@@ -282,7 +286,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.5"
 manifest_format = "2.0"
-project_hash = "9a3d446d2cc5ebaeb331a2026bdd0675be0541cd"
+project_hash = "c6867f468cd8935d24f0a2a38cf4aca04f424306"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "e2478490447631aedba0823d4d7a80b2cc8cdb32"
@@ -2328,6 +2332,7 @@ version = "1.4.1+2"
 """
 
 # ╔═╡ Cell order:
+# ╟─52edc603-a963-4b2f-8ab8-ab8ea95d0a59
 # ╟─b13bae50-5199-11f0-3b8c-4f96f5e02048
 # ╠═2ac47439-7d0a-4506-b351-db0c572ec9a2
 # ╟─81b0bd17-1a34-4189-b875-6f36707893c2
@@ -2358,7 +2363,7 @@ version = "1.4.1+2"
 # ╟─d7d19e24-6508-4240-aa0a-f736a7cf8eac
 # ╟─97b73015-5139-435e-b1c0-9569105bf182
 # ╟─9f61ce6e-7bf5-427d-8f26-75c32240e69c
-# ╠═3f2951f6-b26e-46b4-8fac-21cdaed98140
+# ╟─3f2951f6-b26e-46b4-8fac-21cdaed98140
 # ╠═e15f0717-ab47-4730-b9d0-1b7a7a835563
 # ╠═75ba2199-88be-483d-98bf-b36ad10790a3
 # ╠═4fe15df8-cd2f-4a0a-ad03-8e04ebd68698
