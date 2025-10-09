@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.4
+# v0.20.11
 
 using Markdown
 using InteractiveUtils
@@ -113,7 +113,7 @@ Unitful = "~1.20.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.3"
+julia_version = "1.11.5"
 manifest_format = "2.0"
 project_hash = "6228742c3275727004f0c468d72001f057880816"
 
@@ -652,7 +652,7 @@ version = "0.3.27+1"
 [[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
-version = "0.8.1+2"
+version = "0.8.5+0"
 
 [[deps.OpenSSL]]
 deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "OpenSSL_jll", "Sockets"]
