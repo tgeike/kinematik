@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.4
+# v0.20.11
 
 using Markdown
 using InteractiveUtils
@@ -107,10 +107,11 @@ with_theme(theme_latexfonts()) do
 	xlims!(ax21,-1,23)
 	ylims!(ax21,-5,7)
 	text!(20.3,-4.4,text="Start")
-	text!(-0.6,-1.1,text="Ziel")
+	text!(-0.35,-1.0,text="O (Ziel)")
 	text!(7.8,5.3,text=L"$v_\mathrm{W}$")
 	text!(7.5,2.1,text=L"$v_\mathrm{E}$")
 	text!(5.3,5.3,text=L"$v_\mathrm{res}$")
+	text!(9.2,3.8,text=L"P")
 	#save("KM182_diagr_flugbahn.pdf",f2)
 	f2
 end
@@ -154,7 +155,7 @@ Unitful = "~1.20.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.3"
+julia_version = "1.11.5"
 manifest_format = "2.0"
 project_hash = "96eeb8816b3ab6c6cf1ba2fe1a4a869b71e5b709"
 
@@ -1458,7 +1459,7 @@ version = "3.2.4+0"
 [[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
-version = "0.8.1+2"
+version = "0.8.5+0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
