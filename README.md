@@ -14,4 +14,4 @@ Die Aufgabenstellungen finden sich teilweise im Buch *Kinematik und Kinetik* von
 2. *Was benötige ich zum Ausführen der Notebooks?* Zum Ausführen der Notebooks wird eine Julia-Installation benötigt. Diese ist für praktisch jedes gängige Betriebssystem verfügbar. Nach der Installation von Julia ist Julia zu öffnen und folgende Befehle sind auszuführen. import Pkg; Pkg.add(Pluto); import Pluto; Pluto.run(). Beim erneuten Starten von Julia sind nur die letzten beiden Befehle notwendig. Der letzte Befehl führt dazu, dass sich im Standardbrowser ein Fenster öffnet, in dem die Notebooks bearbeitet und ausgeführt werden. Nähere Informatione zu Pluto finden sich unter https://plutojl.org.
 
 ## Hinweise zu Aufgaben
-KM142: enthalten in KDG_Woche01_SU
+KM142: auch enthalten in KDG_Woche01_SU (in einer leicht anderen Fassung)
