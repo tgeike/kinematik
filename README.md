@@ -12,3 +12,6 @@ Die Kinematik ist primär Mathematik und benötigt nur die Grundbegriffe Raum un
 1. *Wo finde ich die Aufgabenstellungen zu den Aufgaben?*
 Die Aufgabenstellungen finden sich teilweise im Buch *Kinematik und Kinetik* von T. Geike. Studierende an der BHT erhalten die Aufgabenstellung über Moodle.
 2. *Was benötige ich zum Ausführen der Notebooks?* Zum Ausführen der Notebooks wird eine Julia-Installation benötigt. Diese ist für praktisch jedes gängige Betriebssystem verfügbar. Nach der Installation von Julia ist Julia zu öffnen und folgende Befehle sind auszuführen. import Pkg; Pkg.add(Pluto); import Pluto; Pluto.run(). Beim erneuten Starten von Julia sind nur die letzten beiden Befehle notwendig. Der letzte Befehl führt dazu, dass sich im Standardbrowser ein Fenster öffnet, in dem die Notebooks bearbeitet und ausgeführt werden. Nähere Informatione zu Pluto finden sich unter https://plutojl.org.
+
+## Hinweise zu Aufgaben
+KM142: enthalten in KDG_Woche01_SU
